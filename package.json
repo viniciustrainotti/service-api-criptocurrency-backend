@@ -1,0 +1,26 @@
+{
+  "name": "service-api-cryptocurrency-backend",
+  "version": "0.1.0",
+  "description": "It's simple project backend api nodejs for return cryptocurrency prices today",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon server.js",
+    "start": "node server.js --env prod"
+  },
+  "keywords": [
+    "backend",
+    "nodejs",
+    "node"
+  ],
+  "author": "Vinicius Trainotti",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
