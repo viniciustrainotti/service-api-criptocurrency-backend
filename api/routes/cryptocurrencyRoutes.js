@@ -3,7 +3,10 @@ const router = express.Router();
 
 const cryptocurrencyController = require('../controllers/cryptocurrencyController');
 
-router.get('/hello'   , cryptocurrencyController.hello);
+router.get('/healthz'                       , cryptocurrencyController.healthz);
+router.get('/all_ids_criptocurrency'        , cryptocurrencyController.getIdsCriptocurrency);
+router.get('/price/:coins/:vs_currencies'   , cryptocurrencyController.getPriceCriptocurrency);
+
 //router.post('/signup' , criptoController.userSignup);
 
 module.exports = router;
