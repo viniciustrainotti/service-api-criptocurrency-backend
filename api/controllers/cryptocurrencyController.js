@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const PATH_API = process.env.PATH_API || '';
 
 const Cryptocurrency = require('../models/cryptocurrencyModel');
+const HistoryCryptocurrency = require('../models/historycriptocurrencyModel');
 
 class oCryptocurrency{
     async healthz(req, res, next){
@@ -85,7 +86,32 @@ class oCryptocurrency{
             const vs_currencies = 'brl';
             console.log('URI', PATH_API + '/simple/price?ids=' + coins + '&vs_currencies=' + vs_currencies);
             const reposta = await axios.get(PATH_API + '/simple/price?ids=' + coins + '&vs_currencies=' + vs_currencies);
-            console.log('RESPOSTA', reposta);
+            console.log('RESPOSTA', reposta.data);
+            const timeElapsed = Date.now();
+            var today = new Date(timeElapsed);
+            //const timeInMs = new Date();
+            var timInMsFormat = today.toISOString();
+            for (let obj in reposta.data){
+                console.log('obj reposta', reposta.data[obj].brl);
+                const paramsNewHistoryCriptocurrencyObject = {
+                    _id: new mongoose.Types.ObjectId(),
+                    symbol: obj,
+                    price: reposta.data[obj].brl,
+                    date: timeElapsed,
+                    dateFormat: timInMsFormat
+                }
+                console.log('paramsNewHistoryCriptocurrencyObject', paramsNewHistoryCriptocurrencyObject);
+
+                const newHistoryCriptocurrencyObject = new HistoryCryptocurrency(paramsNewHistoryCriptocurrencyObject);
+                try {
+                    let returnNewHistoryCriptocurrencyObject = await newHistoryCriptocurrencyObject.save();
+                    //response = { 'status': 200, 'data': { 'message': returnData }}
+                    console.log('save new history', returnNewHistoryCriptocurrencyObject);
+                } catch (error) {
+                    console.log('save error', error);
+                    response = { 'status': 500, 'data': { 'message' : error } }
+                }
+            }
             response = { 'status': 200, 'data': { 'message': reposta.data }}
             console.log('return', returnData);
         } catch (error) {
