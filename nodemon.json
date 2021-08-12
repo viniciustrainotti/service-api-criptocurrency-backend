@@ -3,7 +3,6 @@
         "PATH_START"     : "/service-api-cryptocurrency-backend",
         "PATH_API"       : "https://api.coingecko.com/api/v3",
         "PORT"           : 4002,
-        "MONGO_ATLAS_PW" : "secret",
         "MONGO_HOST_PORT": "172.17.0.3:27017",
         "MONGO_USER"     : "service-api-cripto-backend",
         "MONGO_PASS"     : "service-api-cripto-backend",

@@ -12,10 +12,10 @@ const MONGO_DB = process.env.MONGO_DB || 'database';
 const Routes = require('./api/routes/gateway');
 
 const URI = "mongodb://" 
-            + MONGO_USER 
-            + ':'
-            + MONGO_PASS
-            + '@'
+            // + MONGO_USER 
+            // + ':'
+            // + MONGO_PASS
+            // + '@'
             + MONGO_HOST_PORT 
             + '/'
             + MONGO_DB;
@@ -26,6 +26,7 @@ console.log('URI', URI);
 mongoose.connect(
     URI,
     {
+        user: MONGO_USER, pass: MONGO_PASS,
         //useMongoClient: true,
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -48,7 +49,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
     if(req.method === 'OPTIONS'){
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+        res.header('Access-Control-Allow-Methods', 'POST, GET');
         return res.status(200).json({});
     }
     next();
