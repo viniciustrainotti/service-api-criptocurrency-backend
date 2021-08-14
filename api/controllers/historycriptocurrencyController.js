@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-const env = require('../../.env');
-
 const { Telegraf } = require('telegraf');
 
-const bot = new Telegraf(env.token);
+const TELEGRAM_API_TOKEN = process.env.TELEGRAM_API_TOKEN ? process.env.TELEGRAM_API_TOKEN : '';
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID ? process.env.TELEGRAM_CHAT_ID : '';
+
+const bot = new Telegraf(TELEGRAM_API_TOKEN);
 
 const HistoryCryptocurrency = require('../models/historycriptocurrencyModel');
 
@@ -16,7 +17,7 @@ class oHistoryCriptocurrency{
     async all(req, res, next){
         let response = {}
         var from_date = self.formatHoursMinutesSeconds();
-
+        console.log('from_date', from_date);
         try {
             const returnData = await HistoryCryptocurrency.find({ 'date': {"$gte": from_date}});
             for(let coin of returnData){
@@ -30,11 +31,13 @@ class oHistoryCriptocurrency{
                                 + 'Criptomoeda: '
                                 + coin.symbol
                                 + '\n' 
+                                + '<b>' 
                                 + 'Preço: R$ '
                                 + price
+                                + '</b>'
                                 +'\n\n';
                 console.log('messageBot', messageBot);
-                bot.telegram.sendMessage("-497749810", messageBot);
+                bot.telegram.sendMessage(TELEGRAM_CHAT_ID, messageBot, {parse_mode: 'HTML'});
             }
             response = { 'status': 200, 'data': { 'message' : returnData } }
         } catch (error) {

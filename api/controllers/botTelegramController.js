@@ -1,13 +1,15 @@
-const env = require('../../.env');
 const { Telegraf } = require('telegraf');
 
-const bot = new Telegraf(env.token);
+const TELEGRAM_API_TOKEN = process.env.TELEGRAM_API_TOKEN ? process.env.TELEGRAM_API_TOKEN : '';
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID ? process.env.TELEGRAM_CHAT_ID : '';
+
+const bot = new Telegraf(TELEGRAM_API_TOKEN);
 
 class oBotTelegram {
 
     hello(req, res, next){
 
-        bot.telegram.sendMessage("-497749810", "Teste Group Telegram with All Member");
+        bot.telegram.sendMessage(TELEGRAM_CHAT_ID, "Teste Group Telegram with All Member");
 
         res.status(200).json({ message: "Hello World!"});
     }
